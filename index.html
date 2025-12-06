@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    
+    <meta property="og:title" content="Funnybirds - Play Flappy Bird Online Free">
+    <meta property="og:description" content="Play the funniest Flappy Bird clone with famous characters! Addictive and free.">
+    <meta property="og:image" content="og-image.jpg">
+    <meta property="og:url" content="https://grameenbit.github.io/Funnybirds/">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="keywords" content="flappy bird online, funny games, play flappy bird free, funnybirds game, sheikh hasina game, messi game, trump game">
+    <meta name="description" content="Play Funny Flappy Bird online for free! Choose funny characters like Sheikh Hasina, Trump, Messi. Avoid pipes and beat high scores. No download needed.">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="index, follow">
+    
+    <title>Funny flappy Birds - Flappy Game</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            flex-direction: column; /* Changed to column for Logo placement */
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow: hidden;
+        }
+
+        /* --- NEW: Website Logo Style --- */
+        .game-logo {
+            font-family: 'Fredoka One', cursive;
+            font-size: 48px;
+            color: #FFD700;
+            text-shadow: 4px 4px 0px #000;
+            margin-bottom: 20px;
+            letter-spacing: 2px;
+            animation: bounce 2s infinite;
+            text-align: center;
+        }
+        .game-logo span { color: #fff; }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
+            40% {transform: translateY(-10px);}
+            60% {transform: translateY(-5px);}
+        }
+
+        .game-container {
+            position: relative;
+            width: 400px;
+            height: 600px;
+            background: linear-gradient(to bottom, #87CEEB 0%, #87CEEB 70%, #98D98E 70%, #98D98E 100%);
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            border: 4px solid #fff; /* Border style enhanced */
+        }
+
+        canvas {
+            display: block;
+            cursor: pointer;
+            border-radius: 17px;
+        }
+
+        .screen {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            z-index: 10;
+            transition: opacity 0.3s ease;
+        }
+
+        .screen.hidden {
+            display: none;
+        }
+
+        .screen h1 {
+            font-family: 'Fredoka One', cursive; /* Better font */
+            font-size: 36px;
+            margin-bottom: 20px;
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.5);
+            animation: pulse 2s infinite;
+            text-align: center;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 99%, #fecfef 100%); /* Improved Gradient */
+            color: #d35400;
+            border: 2px solid white;
+            padding: 15px 40px;
+            font-size: 20px;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-family: 'Fredoka One', cursive;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+            background: linear-gradient(135deg, #fecfef 0%, #ff9a9e 100%);
+        }
+
+        .btn:active {
+            transform: translateY(-1px);
+        }
+
+        /* --- NEW: Pause Button Style --- */
+        .pause-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 40px;
+            height: 40px;
+            background: rgba(255,255,255,0.3);
+            border: 2px solid #fff;
+            border-radius: 50%;
+            color: white;
+            font-size: 18px;
+            cursor: pointer;
+            z-index: 20;
+            display: none; /* Hidden by default, shown in game */
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .character-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 30px;
+            max-height: 300px; /* Scrollable if too many characters */
+            overflow-y: auto;
+            padding: 10px;
+        }
+
+        /* Scrollbar styling */
+        .character-grid::-webkit-scrollbar { width: 5px; }
+        .character-grid::-webkit-scrollbar-thumb { background: #fff; border-radius: 5px; }
+
+        .character-card {
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid transparent;
+            border-radius: 15px;
+            padding: 10px;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.3s ease;
+            width: 100px;
+        }
+
+        .character-card:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: scale(1.05);
+        }
+
+        .character-card.selected {
+            border-color: #FFD700;
+            box-shadow: 0 0 15px #FFD700;
+            background: rgba(255, 215, 0, 0.2);
+        }
+
+        .character-card img {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 8px;
+            border: 2px solid #fff;
+        }
+
+        .character-card p {
+            font-size: 12px;
+            margin: 0;
+            font-weight: bold;
+        }
+
+        .score {
+            position: absolute;
+            top: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 50px;
+            color: white;
+            font-family: 'Fredoka One', cursive;
+            text-shadow: 4px 4px 0 #000; /* Better visibility */
+            z-index: 5;
+            pointer-events: none;
+        }
+
+        .best-score {
+            position: absolute;
+            top: 90px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 20px;
+            color: #FFD700;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+            z-index: 5;
+            pointer-events: none;
+        }
+
+        .game-over-image {
+            width: 250px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="game-logo">Funny<span>Birds</span></div>
+
+    <div class="game-container">
+        <canvas id="gameCanvas" width="400" height="600"></canvas>
+        
+        <div class="score hidden">0</div>
+        <div class="best-score hidden">Best: 0</div>
+        
+        <button class="pause-btn" id="pauseBtn" onclick="togglePause()">❚❚</button>
+
+        <div class="screen" id="characterSelectScreen">
+            <h1>Choose Character</h1>
+            <div class="character-grid" id="characterGrid">
+                </div>
+            <button class="btn" id="startBtn" disabled>Start Game</button>
+        </div>
+        
+        <div class="screen hidden" id="gameOverScreen">
+            <h1 style="font-size: 50px; color: #ff4757;">GAME OVER</h1> 
+            <p id="finalScore" style="font-size: 24px; margin: 10px 0;">Your Score: 0</p>
+            <p id="bestScoreText" style="color: #FFD700; margin-bottom: 20px;">Best Score: 0</p>
+            <button class="btn" onclick="backToCharacterSelect()">Play Again</button>
+        </div>
+        
+        <div class="screen hidden" id="pauseScreen" style="background: rgba(0,0,0,0.6);">
+            <h1>PAUSED</h1>
+            <button class="btn" onclick="togglePause()">RESUME</button>
+            <br>
+            <button class="btn" onclick="backToCharacterSelect()" style="font-size: 14px; padding: 10px 20px; background: #555;">Quit</button>
+        </div>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+        const characterSelectScreen = document.getElementById('characterSelectScreen');
+        const gameOverScreen = document.getElementById('gameOverScreen');
+        const pauseScreen = document.getElementById('pauseScreen');
+        const scoreElement = document.querySelector('.score');
+        const bestScoreElement = document.querySelector('.best-score');
+        const finalScoreElement = document.getElementById('finalScore');
+        const bestScoreTextElement = document.getElementById('bestScoreText');
+        const startBtn = document.getElementById('startBtn');
+        const pauseBtn = document.getElementById('pauseBtn');
+
+        // --- গেম স্টেট এবং ভেরিয়েবল ---
+        let gameState = 'selecting'; // 'selecting', 'playing', 'gameOver', 'paused'
+        let score = 0;
+        let bestScore = localStorage.getItem('flappyBestScore') || 0;
+        let frameCount = 0;
+        let isPaused = false; // NEW Feature variable
+
+        // --- চরিত্রের তথ্য (NEW Characters added) ---
+        const characters = [
+            { id: 'bird', name: 'Tor nani', imageSrc: 'bird.png', soundSrc: 'sound1.mp3' },
+            { id: 'sheikh', name: 'Sheikh Hasina', imageSrc: 'seikhhasina.png', soundSrc: 'seikh.mp3' },
+            { id: 'bongobondhu', name: 'Bongobondhu', imageSrc: 'bongobondhu.png', soundSrc: 'bondhu.mp3' },
+            { id: 'cid', name: 'CID', imageSrc: 'cid.png', soundSrc: 'cid.mp3' },
+            { id: 'modi', name: 'Modi', imageSrc: 'modi.png', soundSrc: 'modi.mp3' },
+            { id: 'anime', name: 'Anime', imageSrc: 'anime.png', soundSrc: 'anime.mp3' },
+            { id: 'neymar', name: 'Free Fire Pro', imageSrc: 'free.png', soundSrc: 'free.mp3' },
+            // NEW CHARACTERS ADDED HERE
+            { id: 'trump', name: 'Amitab bacchan', imageSrc: 'amitab.png', soundSrc: 'amitab.mp3' },
+            { id: 'messi', name: 'Single apa', imageSrc: 'single.png', soundSrc: 'single.mp3' },
+            { id: 'nahid', name: 'Nahid Morshed', imageSrc: 'nahid.png', soundSrc: 'nahid.mp3' }
+        ];
+        let selectedCharacter = characters[0];
+
+        // --- বার্ড অবজেক্ট ---
+        const bird = {
+            x: 100,
+            y: canvas.height / 2,
+            width: 50,
+            height: 50,
+            velocity: 0,
+            gravity: 0.30,
+            jump: -6,
+            rotation: 0,
+            image: new Image()
+        };
+
+        // --- পাইপ অ্যারে এবং সেটিংস ---
+        let pipes = [];
+        const pipeWidth = 60;
+        const pipeGap = 220; // Slightly harder gap for professional feel
+        const pipeSpeed = 1.6; // Slightly faster
+        const pipeInterval = 130; // More frequent pipes
+
+        // --- রিসোর্স লোড ---
+        let gameOverSound = new Audio();
+
+        // --- গ্রিন স্ক্রিন রিমুভালের জন্য টেম্পোরারি ক্যানভাস ---
+        const tempCanvas = document.createElement('canvas');
+        const tempCtx = tempCanvas.getContext('2d');
+        tempCanvas.width = bird.width;
+        tempCanvas.height = bird.height;
+
+        // --- চরিত্র নির্বাচন ইনিটিয়ালাইজেশন ---
+        function initCharacterSelect() {
+            const characterGrid = document.getElementById('characterGrid');
+            characterGrid.innerHTML = '';
+
+            characters.forEach(char => {
+                const card = document.createElement('div');
+                card.className = 'character-card';
+                card.dataset.id = char.id;
+                // ইমেজ না থাকলে অল্টারনেটিভ টেক্সট দেখাবে
+                card.innerHTML = `
+                    <img src="${char.imageSrc}" alt="${char.name}" onerror="this.src='https://via.placeholder.com/60?text=${char.name.charAt(0)}'">
+                    <p>${char.name}</p>
+                `;
+                card.addEventListener('click', () => selectCharacter(char));
+                characterGrid.appendChild(card);
+            });
+
+            selectCharacter(characters[0]);
+        }
+        
+        // --- চরিত্র নির্বাচন ফাংশন ---
+        function selectCharacter(character) {
+            selectedCharacter = character;
+            
+            document.querySelectorAll('.character-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+            document.querySelector(`[data-id="${character.id}"]`).classList.add('selected');
+
+            bird.image.src = selectedCharacter.imageSrc;
+            
+            // Sound handling logic improved
+            try {
+                gameOverSound.src = selectedCharacter.soundSrc;
+            } catch(e) { console.log('Sound error'); }
+            
+            startBtn.disabled = false;
+        }
+
+        // --- গেম শুরু ---
+        function startGame() {
+            characterSelectScreen.classList.add('hidden');
+            gameOverScreen.classList.add('hidden');
+            scoreElement.classList.remove('hidden');
+            bestScoreElement.classList.remove('hidden');
+            pauseBtn.style.display = 'flex'; // Show pause button
+            init();
+            gameState = 'playing';
+            isPaused = false;
+            gameLoop();
+        }
+        
+        // --- গেম ইনিশিয়ালাইজেশন ---
+        function init() {
+            bird.y = canvas.height / 2;
+            bird.velocity = 0;
+            bird.rotation = 0;
+            pipes = [];
+            score = 0;
+            frameCount = 0;
+            updateScore();
+            updateBestScore();
+        }
+        
+        // --- NEW: Toggle Pause Function ---
+        function togglePause() {
+            if (gameState === 'gameOver' || gameState === 'selecting') return;
+
+            isPaused = !isPaused;
+            if (isPaused) {
+                gameState = 'paused';
+                pauseScreen.classList.remove('hidden');
+                pauseBtn.style.display = 'none';
+            } else {
+                gameState = 'playing';
+                pauseScreen.classList.add('hidden');
+                pauseBtn.style.display = 'flex';
+                gameLoop(); // Restart loop
+            }
+        }
+
+        // --- গেম ওভার ---
+        function gameOver() {
+            if (gameState !== 'playing') return;
+            gameState = 'gameOver';
+            pauseBtn.style.display = 'none'; // Hide pause button
+            
+            try {
+                gameOverSound.currentTime = 0;
+                gameOverSound.play().catch(e => console.log("Sound error:", e));
+            } catch (e) { }
+            
+            if (score > bestScore) {
+                bestScore = score;
+                localStorage.setItem('flappyBestScore', bestScore);
+            }
+            
+            finalScoreElement.textContent = `Your Score: ${score}`;
+            bestScoreTextElement.textContent = `Best Score: ${bestScore}`;
+            
+            scoreElement.classList.add('hidden');
+            bestScoreElement.classList.add('hidden');
+            gameOverScreen.classList.remove('hidden');
+        }
+
+        function backToCharacterSelect() {
+            gameState = 'selecting';
+            gameOverScreen.classList.add('hidden');
+            pauseScreen.classList.add('hidden');
+            characterSelectScreen.classList.remove('hidden');
+            pauseBtn.style.display = 'none';
+        }
+
+        function updateScore() {
+            scoreElement.textContent = score;
+        }
+
+        function updateBestScore() {
+            bestScoreElement.textContent = `Best: ${bestScore}`;
+        }
+
+        // --- পাইপ তৈরি ---
+        function createPipe() {
+            const minHeight = 50;
+            const maxHeight = canvas.height - pipeGap - minHeight - 80;
+            const height = Math.random() * (maxHeight - minHeight) + minHeight;
+            
+            pipes.push({
+                x: canvas.width,
+                topHeight: height,
+                bottomY: height + pipeGap,
+                passed: false
+            });
+        }
+
+        // --- বার্ড আঁকা (Original Green Screen Logic Kept) ---
+        function drawBird() {
+            ctx.save();
+            ctx.translate(bird.x + bird.width / 2, bird.y + bird.height / 2);
+            
+            bird.rotation = Math.min(Math.max(bird.velocity * 3, -30), 90) * Math.PI / 180;
+            ctx.rotate(bird.rotation);
+            
+            if (bird.image.complete && bird.image.naturalHeight !== 0) {
+                // গ্রিন স্ক্রিন রিমুভাল লজিক (অপরিবর্তিত)
+                tempCtx.clearRect(0, 0, tempCanvas.width, tempCanvas.height);
+                tempCtx.drawImage(bird.image, 0, 0, bird.width, bird.height);
+                
+                const imageData = tempCtx.getImageData(0, 0, tempCanvas.width, tempCanvas.height);
+                const data = imageData.data;
+
+                for (let i = 0; i < data.length; i += 4) {
+                    const r = data[i];
+                    const g = data[i + 1];
+                    const b = data[i + 2];
+                    
+                    if (g > 100 && g > r * 1.4 && g > b * 1.4) {
+                        data[i + 3] = 0; 
+                    }
+                }
+                
+                tempCtx.putImageData(imageData, 0, 0);
+                
+                ctx.beginPath();
+                ctx.arc(0, 0, bird.width / 2, 0, Math.PI * 2);
+                ctx.closePath();
+                ctx.clip();
+                ctx.drawImage(tempCanvas, -bird.width / 2, -bird.height / 2, bird.width, bird.height);
+
+            } else {
+                // Fallback circle if image fails
+                ctx.fillStyle = '#FFD700';
+                ctx.beginPath();
+                ctx.arc(0, 0, bird.width / 2, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.fillStyle = '#000'; // Eye
+                ctx.beginPath();
+                ctx.arc(10, -5, 5, 0, Math.PI * 2);
+                ctx.fill();
+            }
+            
+            ctx.restore();
+        }
+
+        // --- পাইপ আঁকা ---
+        function drawPipes() {
+            pipes.forEach(pipe => {
+                // Professional Gradient for Pipes
+                const pipeGradient = ctx.createLinearGradient(pipe.x, 0, pipe.x + pipeWidth, 0);
+                pipeGradient.addColorStop(0, '#2ecc71');
+                pipeGradient.addColorStop(0.5, '#27ae60');
+                pipeGradient.addColorStop(1, '#2ecc71');
+                
+                ctx.fillStyle = pipeGradient;
+                ctx.strokeStyle = '#22552b';
+                ctx.lineWidth = 2;
+
+                // Top Pipe
+                ctx.fillRect(pipe.x, 0, pipeWidth, pipe.topHeight);
+                ctx.strokeRect(pipe.x, 0, pipeWidth, pipe.topHeight);
+                
+                // Cap
+                ctx.fillRect(pipe.x - 4, pipe.topHeight - 20, pipeWidth + 8, 20);
+                ctx.strokeRect(pipe.x - 4, pipe.topHeight - 20, pipeWidth + 8, 20);
+
+                // Bottom Pipe
+                ctx.fillRect(pipe.x, pipe.bottomY, pipeWidth, canvas.height - pipe.bottomY);
+                ctx.strokeRect(pipe.x, pipe.bottomY, pipeWidth, canvas.height - pipe.bottomY);
+                
+                // Cap
+                ctx.fillRect(pipe.x - 4, pipe.bottomY, pipeWidth + 8, 20);
+                ctx.strokeRect(pipe.x - 4, pipe.bottomY, pipeWidth + 8, 20);
+            });
+        }
+
+        // --- গেম আপডেট ---
+        function update() {
+            if (gameState !== 'playing' || isPaused) return;
+
+            bird.velocity += bird.gravity;
+            bird.y += bird.velocity;
+
+            if (bird.y < 0 || bird.y + bird.height > canvas.height - 80) {
+                gameOver();
+                return;
+            }
+
+            frameCount++;
+            if (frameCount % pipeInterval === 0) {
+                createPipe();
+            }
+
+            pipes.forEach((pipe, index) => {
+                pipe.x -= pipeSpeed;
+
+                if (pipe.x + pipeWidth < 0) {
+                    pipes.splice(index, 1);
+                }
+
+                if (bird.x < pipe.x + pipeWidth &&
+                    bird.x + bird.width > pipe.x &&
+                    (bird.y < pipe.topHeight || bird.y + bird.height > pipe.bottomY)) {
+                    gameOver();
+                    return;
+                }
+
+                if (!pipe.passed && pipe.x + pipeWidth < bird.x) {
+                    pipe.passed = true;
+                    score++;
+                    updateScore();
+                }
+            });
+        }
+
+        // --- গেম আঁকা ---
+        function draw() {
+            // Background
+            const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
+            gradient.addColorStop(0, '#87CEEB');
+            gradient.addColorStop(0.7, '#87CEEB');
+            gradient.addColorStop(1, '#e0f7fa');
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // Simple Clouds (Visual Improvement)
+            ctx.fillStyle = "rgba(255, 255, 255, 0.5)";
+            ctx.beginPath();
+            ctx.arc(100, 100, 30, 0, Math.PI * 2);
+            ctx.arc(300, 150, 40, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Ground
+            ctx.fillStyle = '#8FBC8F';
+            ctx.fillRect(0, canvas.height - 80, canvas.width, 80);
+            
+            // Ground Line
+            ctx.strokeStyle = '#7CFC00';
+            ctx.lineWidth = 5;
+            ctx.beginPath();
+            ctx.moveTo(0, canvas.height - 80);
+            ctx.lineTo(canvas.width, canvas.height - 80);
+            ctx.stroke();
+
+            if (gameState === 'playing' || gameState === 'paused') {
+                drawPipes();
+                drawBird();
+            }
+        }
+
+        // --- গেম লুপ ---
+        function gameLoop() {
+            if(isPaused) return; // Stop loop if paused
+
+            update();
+            draw();
+            
+            if (gameState === 'playing') {
+                requestAnimationFrame(gameLoop);
+            }
+        }
+
+        // --- কন্ট্রোল ---
+        function jump() {
+            if (gameState === 'playing' && !isPaused) {
+                bird.velocity = bird.jump;
+            }
+        }
+
+        // --- ইভেন্ট লিসেনার ---
+        canvas.addEventListener('click', jump);
+        document.addEventListener('keydown', (e) => {
+            if (e.code === 'Space') {
+                e.preventDefault();
+                jump();
+            }
+            // 'P' key for Pause
+            if (e.code === 'KeyP') {
+                togglePause();
+            }
+        });
+
+        startBtn.addEventListener('click', () => {
+            if(!startBtn.disabled) {
+                startGame();
+            }
+        });
+
+        // --- ইনিশিয়াল লোড ---
+        initCharacterSelect();
+        updateBestScore();
+    </script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "VideoGame",
+  "name": "Funnybirds",
+  "description": "A parody Flappy Bird game with funny characters.",
+  "genre": "Arcade",
+  "playMode": "SinglePlayer",
+  "applicationCategory": "Game",
+  "operatingSystem": "Web Browser"
+}
+</script>
+
+</body>
+</html>
