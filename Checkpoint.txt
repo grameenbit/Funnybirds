@@ -1,0 +1,1788 @@
+[... Older checkpoint records truncated to enforce 20k token limit ...]
+index.html:698:             finalScoreElement.textContent = `Your Score: ${score}\nLevel Reached: ${level} / ${maxLevel}`;
+index.html:879:                     if (levelScore >= pointsPerLevel && level < maxLevel) {
+index.html:981:             for (let i = 1; i <= maxLevel; i++) {
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+ACTION: global_search
+[THOUGHT]
+The regex with | may not work. Let me search individual terms. Let me grep for "maxLevel" and "applyDifficulty" separately.
+
+The pipe regex didn't match. Let me search individual terms.
+
+[INPUT]
+{"query":"applyDifficulty"}
+
+[OUTPUT]
+android-apk/assets/index.html:616:             applyDifficulty();
+android-apk/assets/index.html:633:         function applyDifficulty() {
+android-apk/assets/index.html:648:             applyDifficulty();
+index.html:616:             applyDifficulty();
+index.html:633:         function applyDifficulty() {
+index.html:648:             applyDifficulty();
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+ACTION: global_search
+[THOUGHT]
+The regex with | may not work. Let me search individual terms. Let me grep for "maxLevel" and "applyDifficulty" separately.
+
+The pipe regex didn't match. Let me search individual terms.
+
+[INPUT]
+{"query":"cloud"}
+
+[OUTPUT]
+android-apk/assets/index.html:892:             // Simple Clouds (Visual Improvement)
+index.html:896:             // Simple Clouds (Visual Improvement)
+--------------------------------------------------------------------------------
+[THOUGHT]
+So there's already applyDifficulty, maxLevel=100, and clouds. Let me read the applyDifficulty function and surrounding area (600-660) to understand what's there.
+
+There's already applyDifficulty, maxLevel, and clouds. Let me read the applyDifficulty function and the draw section to see current state.
+--------------------------------------------------------------------------------
+ACTION: read_file_range
+[THOUGHT]
+So there's already applyDifficulty, maxLevel=100, and clouds. Let me read the applyDifficulty function and surrounding area (600-660) to understand what's there.
+
+There's already applyDifficulty, maxLevel, and clouds. Let me read the applyDifficulty function and the draw section to see current state.
+
+[INPUT]
+{"path":"index.html","startLine":600,"endLine":660}
+
+[OUTPUT]
+isPaused = false;
+            gameLoop();
+        }
+        
+        // --- গেম ইনিশিয়ালাইজেশন ---
+        function init() {
+            bird.y = canvas.height / 2;
+            bird.velocity = 0;
+            bird.rotation = 0;
+            pipes = [];
+            score = 0;
+            frameCount = 0;
+            level = selectedStartLevel;
+            levelScore = 0;
+            levelUpBanner = 0;
+            livesUsed = 0;
+            applyDifficulty();
+            updateScore();
+            updateBestScore();
+            updateLevelDisplay();
+        }
+
+        // --- LEVEL DIFFICULTY CURVE ---
+        // Linear interpolation from level 1 (easy) to level 100 (very hard)
+        function getDifficulty(lv) {
+            const t = (lv - 1) / (maxLevel - 1); // 0 .. 1
+            return {
+                gap:      Math.round(220 - t * 110), // 220 -> 110  (narrower gap)
+                speed:    1.6 + t * 2.4,             // 1.6 -> 4.0  (faster pipes)
+                interval: Math.round(130 - t * 58)   // 130 -> 72   (more frequent)
+            };
+        }
+
+        function applyDifficulty() {
+            const d = getDifficulty(level);
+            pipeGap = d.gap;
+            pipeSpeed = d.speed;
+            pipeInterval = d.interval;
+        }
+
+        function updateLevelDisplay() {
+            levelDisplayElement.textContent = `Level ${level} / ${maxLevel}`;
+        }
+
+        function levelUp() {
+            if (level >= maxLevel) return;
+            level++;
+            levelScore = 0;
+            applyDifficulty();
+            updateLevelDisplay();
+            levelUpBanner = 90; // ~1.5s at 60fps
+            if (level > bestLevel) {
+                bestLevel = level;
+                localStorage.setItem('flappyBestLevel', bestLevel);
+            }
+            // Interstitial ad when moving from one level to another
+            AdBridge.showInterstitial();
+        }
+        
+        // --- NEW: Toggle Pause Function ---
+        function togglePause() {
+
+[SYSTEM NOTICE: You have already inspected this exact code slice in 'index.html' multiple times. Proceed with 'edit_file' or 'create_file', or call 'complete' if your work is finished.]
+--------------------------------------------------------------------------------
+[THOUGHT]
+Good. So difficulty curve already exists. Now let me check the useSaveLife function and the theme/night mode. Let me read around 700-800 for useSaveLife.
+
+Actually let me be efficient. Let me grep for useSaveLife and theme.
+
+Difficulty curve exists. Now let me check useSaveLife and theme/night mode. Let me grep for useSaveLife and theme.
+--------------------------------------------------------------------------------
+ACTION: global_search
+[THOUGHT]
+Good. So difficulty curve already exists. Now let me check the useSaveLife function and the theme/night mode. Let me read around 700-800 for useSaveLife.
+
+Actually let me be efficient. Let me grep for useSaveLife and theme.
+
+Difficulty curve exists. Now let me check useSaveLife and theme/night mode. Let me grep for useSaveLife and theme.
+
+[INPUT]
+{"query":"useSaveLife"}
+
+[OUTPUT]
+android-apk/assets/index.html:385:             <button class="btn save-life-btn" id="saveLifeBtn" onclick="useSaveLife()">❤ Save Life (Watch Ad)</button>
+android-apk/assets/index.html:705:         function useSaveLife() {
+index.html:385:             <button class="btn save-life-btn" id="saveLifeBtn" onclick="useSaveLife()">❤ Save Life (Watch Ad)</button>
+index.html:705:         function useSaveLife() {
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+ACTION: global_search
+[THOUGHT]
+Good. So difficulty curve already exists. Now let me check the useSaveLife function and the theme/night mode. Let me read around 700-800 for useSaveLife.
+
+Actually let me be efficient. Let me grep for useSaveLife and theme.
+
+Difficulty curve exists. Now let me check useSaveLife and theme/night mode. Let me grep for useSaveLife and theme.
+
+[INPUT]
+{"query":"theme"}
+
+[OUTPUT]
+Checkpoint.txt:984:             android:theme="@android:style/Theme.Translucent" />
+android-apk/AndroidManifest.xml:62:             android:theme="@android:style/Theme.Translucent" />
+android-apk/libs/billing/AndroidManifest.xml:27:             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+android-apk/libs/play-services-ads-lite/AndroidManifest.xml:55:         <!-- Include the AdActivity and InAppPurchaseActivity configChanges and themes. -->
+android-apk/libs/play-services-ads-lite/AndroidManifest.xml:60:             android:theme="@android:style/Theme.Translucent"
+android-apk/libs/play-services-ads-lite/AndroidManifest.xml:87:             android:theme="@android:style/Theme.Translucent.NoTitleBar"
+android-apk/libs/play-services-ads-lite/R.txt:6: int style Theme_IAPTheme 0x00000000
+android-apk/libs/play-services-ads-lite/res/values/values.xml:5: <style name="Theme.IAPTheme" parent="android:Theme">
+android-apk/libs/play-services-ads/third_party_licenses.txt:892: Files: exoplayer.dev documentation template (Jekyll TeXt Theme)
+android-apk/libs/play-services-base/AndroidManifest.xml:21:                   android:theme="@android:style/Theme.Translucent.NoTitleBar"
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+ACTION: global_search
+[THOUGHT]
+Good. So difficulty curve already exists. Now let me check the useSaveLife function and the theme/night mode. Let me read around 700-800 for useSaveLife.
+
+Actually let me be efficient. Let me grep for useSaveLife and theme.
+
+Difficulty curve exists. Now let me check useSaveLife and theme/night mode. Let me grep for useSaveLife and theme.
+
+[INPUT]
+{"query":"night"}
+
+[OUTPUT]
+android-apk/assets/sadkid.png:1: data:image/png;base64,/9j/4QCARXhpZgAATU0AKgAAAAgABAEAAAQAAAABAAADFQEBAAQAAAABAAAD6wEyAAIAAAAUAAAAPodpAAQAAAABAAAAUgAAAAAyMDI2OjExOjI2IDEwOjM0OjAwAAABkAMAAgAAABQAAABkAAAAADIwMjY6MTE6MjYgMDQ6MzQ6MDAA/+AAEEpGSUYAAQEAAAEAAQAA/+ICKElDQ19QUk9GSUxFAAEBAAACGAAAAAACEAAAbW50clJHQiBYWVogAAAAAAAAAAAAAAAAYWNzcA...
+sadkid.png:1: data:image/png;base64,/9j/4QCARXhpZgAATU0AKgAAAAgABAEAAAQAAAABAAADFQEBAAQAAAABAAAD6wEyAAIAAAAUAAAAPodpAAQAAAABAAAAUgAAAAAyMDI2OjExOjI2IDEwOjM0OjAwAAABkAMAAgAAABQAAABkAAAAADIwMjY6MTE6MjYgMDQ6MzQ6MDAA/+AAEEpGSUYAAQEAAAEAAQAA/+ICKElDQ19QUk9GSUxFAAEBAAACGAAAAAACEAAAbW50clJHQiBYWVogAAAAAAAAAAAAAAAAYWNzcA...
+--------------------------------------------------------------------------------
+[THOUGHT]
+Let me read the useSaveLife function and the theme/night mode area. Let me read 700-780.
+
+Let me read the useSaveLife function and surrounding game over logic.
+--------------------------------------------------------------------------------
+ACTION: read_file_range
+[THOUGHT]
+Let me read the useSaveLife function and the theme/night mode area. Let me read 700-780.
+
+Let me read the useSaveLife function and surrounding game over logic.
+
+[INPUT]
+{"path":"index.html","startLine":690,"endLine":780}
+
+[OUTPUT]
+}
+            
+            finalScoreElement.textContent = `Your Score: ${score}`;
+            bestScoreTextElement.textContent = `Best Score: ${bestScore}`;
+            
+            scoreElement.classList.add('hidden');
+            bestScoreElement.classList.add('hidden');
+            levelDisplayElement.classList.add('hidden');
+            finalScoreElement.textContent = `Your Score: ${score}\nLevel Reached: ${level} / ${maxLevel}`;
+            finalScoreElement.style.whiteSpace = 'pre-line';
+            if (saveLifeBtn) saveLifeBtn.classList.remove('hidden');
+            gameOverScreen.classList.remove('hidden');
+        }
+
+        // --- SAVE LIFE (Rewarded Ad) ---
+        function useSaveLife() {
+            if (saveLifeBtn) saveLifeBtn.classList.add('hidden');
+            AdBridge.showRewarded(function (earned) {
+                if (earned) {
+                    // Restore the game at the current level
+                    livesUsed++;
+                    pipes = [];
+                    frameCount = 0;
+                    levelScore = 0;
+                    bird.y = canvas.height / 2;
+                    bird.velocity = 0;
+                    bird.rotation = 0;
+                    gameOverScreen.classList.add('hidden');
+                    scoreElement.classList.remove('hidden');
+                    bestScoreElement.classList.remove('hidden');
+                    levelDisplayElement.classList.remove('hidden');
+                    pauseBtn.style.display = 'flex';
+                    gameState = 'playing';
+                    isPaused = false;
+                    gameLoop();
+                }
+            });
+        }
+
+        function backToCharacterSelect() {
+            gameState = 'selecting';
+            gameOverScreen.classList.add('hidden');
+            pauseScreen.classList.add('hidden');
+            characterSelectScreen.classList.remove('hidden');
+            pauseBtn.style.display = 'none';
+        }
+
+        function updateScore() {
+            scoreElement.textContent = score;
+        }
+
+        function updateBestScore() {
+            bestScoreElement.textContent = `Best: ${bestScore}`;
+        }
+
+        // --- পাইপ তৈরি ---
+        function createPipe() {
+            const minHeight = 50;
+            const maxHeight = canvas.height - pipeGap - minHeight - 80;
+            const height = Math.random() * (maxHeight - minHeight) + minHeight;
+            
+            pipes.push({
+                x: canvas.width,
+                topHeight: height,
+                bottomY: height + pipeGap,
+                passed: false
+            });
+        }
+
+        // --- বার্ড আঁকা (Original Green Screen Logic Kept) ---
+        function drawBird() {
+            ctx.save();
+            ctx.translate(bird.x + bird.width / 2, bird.y + bird.height / 2);
+            
+            bird.rotation = Math.min(Math.max(bird.velocity * 3, -30), 90) * Math.PI / 180;
+            ctx.rotate(bird.rotation);
+            
+            if (bird.image.complete && bird.image.naturalHeight !== 0) {
+                // গ্রিন স্ক্রিন রিমুভাল লজিক (অপরিবর্তিত)
+                tempCtx.clearRect(0, 0, tempCanvas.width, tempCanvas.height);
+                tempCtx.drawImage(bird.image, 0, 0, bird.width, bird.height);
+                
+                const imageData = tempCtx.getImageData(0, 0, tempCanvas.width, tempCanvas.height);
+                const data = imageData.data;
+
+                for (let i = 0; i < data.length; i += 4) {
+                    const r = data[i];
+                    const g = data[i + 1];
+                    const b = data[i + 2];
+                    
+                    if (g > 100 && g > r * 1.4 && g > b * 1.4) {
+
+[SYSTEM NOTICE: You have already inspected this exact code slice in 'index.html' multiple times. Proceed with 'edit_file' or 'create_file', or call 'complete' if your work is finished.]
+--------------------------------------------------------------------------------
+[THOUGHT]
+Let me look at the current state. The task requires:
+1. Save life button → ad → toast → countdown 5→1 → resume from game over point
+2. Difficulty per level (already exists)
+3. Cloud (already exists)
+4. Night/day mode with stars, sky, moon animation / sun, clouds
+
+Let me check what's already there. The useSaveLife already restores game. Need to add toast + countdown + resume from game over position. Currently it resets bird.y to center and pipes=[]. Need to resume from where game over happened.
+
+Let me check the theme/night mode. Let me grep for "dayMode" or "stars" or "moon".
+
+Actually let me just check the draw background section and theme toggle. Let me grep for "drawBackground" and "stars".
+
+Let me check for existing theme/night mode code and background drawing.
+--------------------------------------------------------------------------------
+ACTION: global_search
+[THOUGHT]
+Let me look at the current state. The task requires:
+1. Save life button → ad → toast → countdown 5→1 → resume from game over point
+2. Difficulty per level (already exists)
+3. Cloud (already exists)
+4. Night/day mode with stars, sky, moon animation / sun, clouds
+
+Let me check what's already there. The useSaveLife already restores game. Need to add toast + countdown + resume from game over position. Currently it resets bird.y to center and pipes=[]. Need to resume from where game over happened.
+
+Let me check the theme/night mode. Let me grep for "dayMode" or "stars" or "moon".
+
+Actually let me just check the draw background section and theme toggle. Let me grep for "drawBackground" and "stars".
+
+Let me check for existing theme/night mode code and background drawing.
+
+[INPUT]
+{"query":"drawBackground"}
+
+[OUTPUT]
+No occurrences of 'drawBackground' found.
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+ACTION: global_search
+[THOUGHT]
+Let me look at the current state. The task requires:
+1. Save life button → ad → toast → countdown 5→1 → resume from game over point
+2. Difficulty per level (already exists)
+3. Cloud (already exists)
+4. Night/day mode with stars, sky, moon animation / sun, clouds
+
+Let me check what's already there. The useSaveLife already restores game. Need to add toast + countdown + resume from game over position. Currently it resets bird.y to center and pipes=[]. Need to resume from where game over happened.
+
+Let me check the theme/night mode. Let me grep for "dayMode" or "stars" or "moon".
+
+Actually let me just check the draw background section and theme toggle. Let me grep for "drawBackground" and "stars".
+
+Let me check for existing theme/night mode code and background drawing.
+
+[INPUT]
+{"query":"stars"}
+
+[OUTPUT]
+No occurrences of 'stars' found.
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+ACTION: global_search
+[THOUGHT]
+Let me look at the current state. The task requires:
+1. Save life button → ad → toast → countdown 5→1 → resume from game over point
+2. Difficulty per level (already exists)
+3. Cloud (already exists)
+4. Night/day mode with stars, sky, moon animation / sun, clouds
+
+Let me check what's already there. The useSaveLife already restores game. Need to add toast + countdown + resume from game over position. Currently it resets bird.y to center and pipes=[]. Need to resume from where game over happened.
+
+Let me check the theme/night mode. Let me grep for "dayMode" or "stars" or "moon".
+
+Actually let me just check the draw background section and theme toggle. Let me grep for "drawBackground" and "stars".
+
+Let me check for existing theme/night mode code and background drawing.
+
+[INPUT]
+{"query":"dayMode"}
+
+[OUTPUT]
+No occurrences of 'dayMode' found.
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+ACTION: global_search
+[THOUGHT]
+Let me look at the current state. The task requires:
+1. Save life button → ad → toast → countdown 5→1 → resume from game over point
+2. Difficulty per level (already exists)
+3. Cloud (already exists)
+4. Night/day mode with stars, sky, moon animation / sun, clouds
+
+Let me check what's already there. The useSaveLife already restores game. Need to add toast + countdown + resume from game over position. Currently it resets bird.y to center and pipes=[]. Need to resume from where game over happened.
+
+Let me check the theme/night mode. Let me grep for "dayMode" or "stars" or "moon".
+
+Actually let me just check the draw background section and theme toggle. Let me grep for "drawBackground" and "stars".
+
+Let me check for existing theme/night mode code and background drawing.
+
+[INPUT]
+{"query":"moon"}
+
+[OUTPUT]
+android-apk/assets/cid.png:1: data:image/png;base64,/9j/4QCARXhpZgAATU0AKgAAAAgABAEAAAQAAAABAAAB9gEBAAQAAAABAAACSgEyAAIAAAAUAAAAPodpAAQAAAABAAAAUgAAAAAyMDI1OjExOjI2IDExOjUzOjIyAAABkAMAAgAAABQAAABkAAAAADIwMjU6MTE6MjYgMDU6NTM6MjEA/+AAEEpGSUYAAQEAAAEAAQAA/+ICKElDQ19QUk9GSUxFAAEBAAACGAAAAAACEAAAbW50clJHQiBYWVogAAAAAAAAAAAAAAAAYWNzcA...
+cid.png:1: data:image/png;base64,/9j/4QCARXhpZgAATU0AKgAAAAgABAEAAAQAAAABAAAB9gEBAAQAAAABAAACSgEyAAIAAAAUAAAAPodpAAQAAAABAAAAUgAAAAAyMDI1OjExOjI2IDExOjUzOjIyAAABkAMAAgAAABQAAABkAAAAADIwMjU6MTE6MjYgMDU6NTM6MjEA/+AAEEpGSUYAAQEAAAEAAQAA/+ICKElDQ19QUk9GSUxFAAEBAAACGAAAAAACEAAAbW50clJHQiBYWVogAAAAAAAAAAAAAAAAYWNzcA...
+--------------------------------------------------------------------------------
+[THOUGHT]
+So there's no night mode, no stars, no moon, no dayMode. The task requires adding night/day mode with animated stars, sky, moon (night) and sun, clouds (day). Also save life needs toast + countdown + resume from game over point.
+
+Let me read the background drawing section (around 880-920 where clouds are) and the game over / game loop. Let me read 850-920.
+
+No night mode/stars/moon exist yet. Let me read the background drawing section (around 880-920 where clouds are) to add night/day mode.
+--------------------------------------------------------------------------------
+ACTION: read_file_range
+[THOUGHT]
+So there's no night mode, no stars, no moon, no dayMode. The task requires adding night/day mode with animated stars, sky, moon (night) and sun, clouds (day). Also save life needs toast + countdown + resume from game over point.
+
+Let me read the background drawing section (around 880-920 where clouds are) and the game over / game loop. Let me read 850-920.
+
+No night mode/stars/moon exist yet. Let me read the background drawing section (around 880-920 where clouds are) to add night/day mode.
+
+[INPUT]
+{"path":"index.html","startLine":855,"endLine":920}
+
+[OUTPUT]
+pipes.forEach((pipe, index) => {
+                pipe.x -= pipeSpeed;
+
+                if (pipe.x + pipeWidth < 0) {
+                    pipes.splice(index, 1);
+                }
+
+                if (bird.x < pipe.x + pipeWidth &&
+                    bird.x + bird.width > pipe.x &&
+                    (bird.y < pipe.topHeight || bird.y + bird.height > pipe.bottomY)) {
+                    gameOver();
+                    return;
+                }
+
+                if (!pipe.passed && pipe.x + pipeWidth < bird.x) {
+                    pipe.passed = true;
+                    score++;
+                    levelScore++;
+                    updateScore();
+                    if (levelScore >= pointsPerLevel && level < maxLevel) {
+                        levelUp();
+                    }
+                }
+            });
+        }
+
+        // --- গেম আঁকা ---
+        function draw() {
+            // Background
+            const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
+            gradient.addColorStop(0, '#87CEEB');
+            gradient.addColorStop(0.7, '#87CEEB');
+            gradient.addColorStop(1, '#e0f7fa');
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // Simple Clouds (Visual Improvement)
+            ctx.fillStyle = "rgba(255, 255, 255, 0.5)";
+            ctx.beginPath();
+            ctx.arc(100, 100, 30, 0, Math.PI * 2);
+            ctx.arc(300, 150, 40, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Ground
+            ctx.fillStyle = '#8FBC8F';
+            ctx.fillRect(0, canvas.height - 80, canvas.width, 80);
+            
+            // Ground Line
+            ctx.strokeStyle = '#7CFC00';
+            ctx.lineWidth = 5;
+            ctx.beginPath();
+            ctx.moveTo(0, canvas.height - 80);
+            ctx.lineTo(canvas.width, canvas.height - 80);
+            ctx.stroke();
+
+            if (gameState === 'playing' || gameState === 'paused') {
+                drawPipes();
+                drawBird();
+            }
+
+            // Level-up banner
+            if (levelUpBanner > 0) {
+                ctx.save();
+                ctx.globalAlpha = Math.min(1, levelUpBanner / 30);
+                ctx.fillStyle = 'rgba(0,0,0,0.45)';
+
+[SYSTEM NOTICE: You have already inspected this exact code slice in 'index.html' multiple times. Proceed with 'edit_file' or 'create_file', or call 'complete' if your work is finished.]
+--------------------------------------------------------------------------------
+
+================================================================================
+[INCOMPLETE TASK CHECKPOINT]
+TIMESTAMP: 2026-11-27 11:30:51
+PROJECT: bird3d
+USER PROMPT:
+[TASK CONTINUATION & RESUMPTION]
+You are resuming the following task:
+"save life button এ ক্লিক করলে ad show  করে শেষ হওয়ার পর একটা toast message showকরবে and তারপর ৫ থেকে ১ পরজুন্ত count Down হবে এবং যেখান থেকে ইউজার এর গেম over হয়েছিল ওইজায়গা থেকে start হবে,আর প্রতিটি লেভেল কে একটু startegy use করে একটা কে আরেকটার থেকে hard বানাও,আর এখানে cloud ও অ্যাড কর।এবং user চাইলে noght or day mode use করেও খেলতে পারবে night mode এ আকাশে তারা,সুন্দর sky and moon থাকবে animation সহ এবং dau mode এ sun, cloud,মাঝে মাজে হাল্কা rain animation সহ"
+
+PREVIOUS EXECUTION PROGRESS:
+• Status / Interruption Cause: Execution stopped or hit a limit
+• Files Modified So Far:
+No files recorded in edit history yet.
+• Sub-task Progress:
+No explicit todo list items.
+
+RESUMPTION INSTRUCTIONS (OpenCode / Claude Code protocol):
+1. Resume directly from the exact point where work stopped.
+2. Review already created or modified files. DO NOT rewrite, duplicate, or overwrite completed files.
+3. Proceed immediately with remaining changes, logic, or missing files to fulfill the original user request.
+4. When all requirements are satisfied, call 'complete' with a clean Markdown summary.
+
+TASK STATUS: UNFINISHED / IN-PROGRESS
+LATEST ACTIONS & INTERRUPT CONTEXT:
+Task stopped: AI task paused or stopped by user.
+================================================================================
+
+================================================================================
+[INCOMPLETE TASK CHECKPOINT]
+TIMESTAMP: 2026-11-27 11:31:31
+PROJECT: bird3d
+USER PROMPT:
+[TASK CONTINUATION & RESUMPTION]
+You are resuming the following task:
+"save life button এ ক্লিক করলে ad show  করে শেষ হওয়ার পর একটা toast message showকরবে and তারপর ৫ থেকে ১ পরজুন্ত count Down হবে এবং যেখান থেকে ইউজার এর গেম over হয়েছিল ওইজায়গা থেকে start হবে,আর প্রতিটি লেভেল কে একটু startegy use করে একটা কে আরেকটার থেকে hard বানাও,আর এখানে cloud ও অ্যাড কর।এবং user চাইলে noght or day mode use করেও খেলতে পারবে night mode এ আকাশে তারা,সুন্দর sky and moon থাকবে animation সহ এবং dau mode এ sun, cloud,মাঝে মাজে হাল্কা rain animation সহ"
+
+PREVIOUS EXECUTION PROGRESS:
+• Status / Interruption Cause: Execution stopped or hit a limit
+• Files Modified So Far:
+No files recorded in edit history yet.
+• Sub-task Progress:
+No explicit todo list items.
+
+RESUMPTION INSTRUCTIONS (OpenCode / Claude Code protocol):
+1. Resume directly from the exact point where work stopped.
+2. Review already created or modified files. DO NOT rewrite, duplicate, or overwrite completed files.
+3. Proceed immediately with remaining changes, logic, or missing files to fulfill the original user request.
+4. When all requirements are satisfied, call 'complete' with a clean Markdown summary.
+
+TASK STATUS: UNFINISHED / IN-PROGRESS
+LATEST ACTIONS & INTERRUPT CONTEXT:
+Task interrupted: Interrupted by system or lifecycle reset (u54 was cancelled). Tap Continue to resume.
+================================================================================
+
+================================================================================
+[EXECUTION STOPPED HERE]
+Status: Previous task execution stopped at this point without calling 'complete'.
+Notice for AI: Review all operations above. Do NOT duplicate completed work. Pick up directly from here.
+================================================================================
+
+
+================================================================================
+[NEW PROMPT SESSION]
+PROMPT: continue
+================================================================================
+[THOUGHT]
+Let me understand the task. I need to modify `index.html` (and mirror to `android-apk/assets/index.html`):
+
+1. Save life button → ad show → after ad ends → toast message → countdown 5→1 → resume from where game over happened.
+2. Each level harder with strategy (already partly exists, but needs improvement with strategy).
+3. Add clouds.
+4. Night/day mode toggle: night mode with animated stars, sky, moon; day mode with sun, clouds, occasional light rain animation.
+
+Let me read the relevant sections of index.html to apply edits. I've already seen a lot in the checkpoint. Let me be efficient and read the CSS section and the HTML head to know where to inject styles and the theme toggle button.
+
+Let me read lines 1-60 to see the CSS start, and find where to add cloud/star/theme code.
+
+Actually, let me just read the full file to be safe since it's ~1000 lines. But budget-wise, let me read key ranges: 1-100 (CSS + HTML head), 300-400 (HTML buttons), 440-520 (variables), and I already have 520-1000 from checkpoint.
+
+Let me batch reads.
+
+Actually the checkpoint gave me most of the JS. Let me read lines 1-120 for CSS and head, and 300-400 for HTML.
+
+Let me do it.
+
+I need to be careful about the "No files recorded in edit history yet" - it says no files modified. So I need to do the edits fresh.
+
+Let me structure the edits:
+
+**A. CSS additions** (in `<style>`): toast styles, theme toggle button styles, countdown overlay.
+
+**B. HTML additions**: theme toggle button, toast container, countdown overlay div.
+
+**C. JS additions**:
+1. Cloud system (array of clouds with animation).
+2. Star system + moon (night), sun (day).
+3. Rain particles (day mode occasional).
+4. Theme state variable + toggle function.
+5. Rewrite `draw()` background to use theme.
+6. Rewrite `useSaveLife()` to: ad → toast → countdown 5→1 → resume from saved state.
+7. Improve difficulty strategy (per level patterns).
+
+For "resume from where game over happened": save `bird.y`, `bird.velocity` at game over time, and don't reset pipes. Then after countdown, restore those.
+
+Let me read the head/CSS first.
+
+I need to see the CSS block and HTML structure (head, buttons) before injecting toast/theme styles and elements. Let me read lines 1-120 and 290-400.
+--------------------------------------------------------------------------------
+ACTION: read_file_range
+[THOUGHT]
+Let me understand the task. I need to modify `index.html` (and mirror to `android-apk/assets/index.html`):
+
+1. Save life button → ad show → after ad ends → toast message → countdown 5→1 → resume from where game over happened.
+2. Each level harder with strategy (already partly exists, but needs improvement with strategy).
+3. Add clouds.
+4. Night/day mode toggle: night mode with animated stars, sky, moon; day mode with sun, clouds, occasional light rain animation.
+
+Let me read the relevant sections of index.html to apply edits. I've already seen a lot in the checkpoint. Let me be efficient and read the CSS section and the HTML head to know where to inject styles and the theme toggle button.
+
+Let me read lines 1-60 to see the CSS start, and find where to add cloud/star/theme code.
+
+Actually, let me just read the full file to be safe since it's ~1000 lines. But budget-wise, let me read key ranges: 1-100 (CSS + HTML head), 300-400 (HTML buttons), 440-520 (variables), and I already have 520-1000 from checkpoint.
+
+Let me batch reads.
+
+Actually the checkpoint gave me most of the JS. Let me read lines 1-120 for CSS and head, and 300-400 for HTML.
+
+Let me do it.
+
+I need to be careful about the "No files recorded in edit history yet" - it says no files modified. So I need to do the edits fresh.
+
+Let me structure the edits:
+
+**A. CSS additions** (in `<style>`): toast styles, theme toggle button styles, countdown overlay.
+
+**B. HTML additions**: theme toggle button, toast container, countdown overlay div.
+
+**C. JS additions**:
+1. Cloud system (array of clouds with animation).
+2. Star system + moon (night), sun (day).
+3. Rain particles (day mode occasional).
+4. Theme state variable + toggle function.
+5. Rewrite `draw()` background to use theme.
+6. Rewrite `useSaveLife()` to: ad → toast → countdown 5→1 → resume from saved state.
+7. Improve difficulty strategy (per level patterns).
+
+For "resume from where game over happened": save `bird.y`, `bird.velocity` at game over time, and don't reset pipes. Then after countdown, restore those.
+
+Let me read the head/CSS first.
+
+I need to see the CSS block and HTML structure (head, buttons) before injecting toast/theme styles and elements. Let me read lines 1-120 and 290-400.
+
+[INPUT]
+{"path":"index.html","startLine":1,"endLine":120}
+
+[OUTPUT]
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    
+    <meta property="og:title" content="Funnybirds - Play Flappy Bird Online Free">
+    <meta property="og:description" content="Play the funniest Flappy Bird clone with famous characters! Addictive and free.">
+    <meta property="og:image" content="og-image.jpg">
+    <meta property="og:url" content="https://grameenbit.github.io/Funnybirds/">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="keywords" content="flappy bird online, funny games, play flappy bird free, funnybirds game, sheikh hasina game, messi game, trump game">
+    <meta name="description" content="Play Funny Flappy Bird online for free! Choose funny characters like Sheikh Hasina, Trump, Messi. Avoid pipes and beat high scores. No download needed.">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="index, follow">
+    
+    <title>Funny flappy Birds - Flappy Game</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                flex-direction: column; /* Changed to column for Logo placement */
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow: hidden;
+        }
+
+        /* --- NEW: Website Logo Style --- */
+        .game-logo {
+            font-family: 'Fredoka One', cursive;
+            font-size: 48px;
+            color: #FFD700;
+            text-shadow: 4px 4px 0px #000;
+            margin-bottom: 20px;
+            letter-spacing: 2px;
+            animation: bounce 2s infinite;
+                text-align: center;
+        }
+        .game-logo span { color: #fff; }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
+            40% {transform: translateY(-10px);}
+            60% {transform: translateY(-5px);}
+        }
+
+        .game-container {
+            position: relative;
+            width: 400px;
+            height: 600px;
+            background: linear-gradient(to bottom, #87CEEB 0%, #87CEEB 70%, #98D98E 70%, #98D98E 100%);
+                border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            border: 4px solid #fff; /* Border style enhanced */
+        }
+
+        canvas {
+            display: block;
+            cursor: pointer;
+            border-radius: 17px;
+        }
+
+        .screen {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            z-index: 10;
+            transition: opacity 0.3s ease;
+        }
+
+        .screen.hidden {
+            display: none;
+        }
+
+        .screen h1 {
+            font-family: 'Fredoka One', cursive; /* Better font */
+            font-size: 36px;
+            margin-bottom: 20px;
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.5);
+            animation: pulse 2s infinite;
+            text-align: center;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 99%, #fecfef 100%); /* Improved Gradient */
+            color: #d35400;
+            border: 2px solid white;
+            padding: 15px 40px;
+            font-size: 20px;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-family: 'Fredoka One', cursive;
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+ACTION: read_file_range
+[THOUGHT]
+Let me understand the task. I need to modify `index.html` (and mirror to `android-apk/assets/index.html`):
+
+1. Save life button → ad show → after ad ends → toast message → countdown 5→1 → resume from where game over happened.
+2. Each level harder with strategy (already partly exists, but needs improvement with strategy).
+3. Add clouds.
+4. Night/day mode toggle: night mode with animated stars, sky, moon; day mode with sun, clouds, occasional light rain animation.
+
+Let me read the relevant sections of index.html to apply edits. I've already seen a lot in the checkpoint. Let me be efficient and read the CSS section and the HTML head to know where to inject styles and the theme toggle button.
+
+Let me read lines 1-60 to see the CSS start, and find where to add cloud/star/theme code.
+
+Actually, let me just read the full file to be safe since it's ~1000 lines. But budget-wise, let me read key ranges: 1-100 (CSS + HTML head), 300-400 (HTML buttons), 440-520 (variables), and I already have 520-1000 from checkpoint.
+
+Let me batch reads.
+
+Actually the checkpoint gave me most of the JS. Let me read lines 1-120 for CSS and head, and 300-400 for HTML.
+
+Let me do it.
+
+I need to be careful about the "No files recorded in edit history yet" - it says no files modified. So I need to do the edits fresh.
+
+Let me structure the edits:
+
+**A. CSS additions** (in `<style>`): toast styles, theme toggle button styles, countdown overlay.
+
+**B. HTML additions**: theme toggle button, toast container, countdown overlay div.
+
+**C. JS additions**:
+1. Cloud system (array of clouds with animation).
+2. Star system + moon (night), sun (day).
+3. Rain particles (day mode occasional).
+4. Theme state variable + toggle function.
+5. Rewrite `draw()` background to use theme.
+6. Rewrite `useSaveLife()` to: ad → toast → countdown 5→1 → resume from saved state.
+7. Improve difficulty strategy (per level patterns).
+
+For "resume from where game over happened": save `bird.y`, `bird.velocity` at game over time, and don't reset pipes. Then after countdown, restore those.
+
+Let me read the head/CSS first.
+
+I need to see the CSS block and HTML structure (head, buttons) before injecting toast/theme styles and elements. Let me read lines 1-120 and 290-400.
+
+[INPUT]
+{"path":"index.html","startLine":330,"endLine":400}
+
+[OUTPUT]
+justify-content: center;
+        }
+
+        /* ===== BANNER AD ===== */
+        .banner-ad {
+            width: 400px;
+            max-width: 100%;
+            height: 60px;
+            margin-top: 10px;
+            background: rgba(0,0,0,.35);
+            border: 2px dashed rgba(255,255,255,.35);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: rgba(255,255,255,.75);
+            font-size: 12px;
+            letter-spacing: 1px;
+        }
+        .banner-ad .ad-tag {
+            background: #FFD700;
+            color: #4a2e00;
+            font-weight: bold;
+            font-size: 10px;
+            padding: 2px 6px;
+            border-radius: 4px;
+            margin-right: 8px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="game-logo">Funny<span>Birds</span></div>
+
+    <div class="game-container">
+        <canvas id="gameCanvas" width="400" height="600"></canvas>
+        
+        <div class="score hidden">0</div>
+        <div class="best-score hidden">Best: 0</div>
+        <div class="level-display hidden">Level 1 / 100</div>
+        
+        <button class="pause-btn" id="pauseBtn" onclick="togglePause()">❚❚</button>
+
+        <div class="screen" id="characterSelectScreen">
+            <h1>Choose Character</h1>
+            <div class="character-grid" id="characterGrid">
+                </div>
+            <button class="btn" id="startBtn" disabled>Start Game</button>
+            <button class="sub-btn" onclick="openLevelMenu()">☰ Levels</button>
+        </div>
+        
+        <div class="screen hidden" id="gameOverScreen">
+            <h1 style="font-size: 50px; color: #ff4757;">GAME OVER</h1> 
+            <p id="finalScore" style="font-size: 24px; margin: 10px 0;">Your Score: 0</p>
+            <p id="bestScoreText" style="color: #FFD700; margin-bottom: 14px;">Best Score: 0</p>
+            <button class="btn save-life-btn" id="saveLifeBtn" onclick="useSaveLife()">❤ Save Life (Watch Ad)</button>
+            <button class="btn" onclick="backToCharacterSelect()">Play Again</button>
+        </div>
+        
+        <div class="screen hidden" id="pauseScreen" style="background: rgba(0,0,0,0.6);">
+            <h1>PAUSED</h1>
+            <button class="btn" onclick="togglePause()">RESUME</button>
+            <br>
+            <button class="btn" onclick="openLevelMenu()" style="font-size: 14px; padding: 10px 20px; background: #2980b9;">Levels</button>
+            <br>
+            <button class="btn" onclick="backToCharacterSelect()" style="font-size: 14px; padding: 10px 20px; background: #555;">Quit</button>
+        </div>
+
+        <!-- LEVEL MENU SCREEN -->
+        <div class="screen hidden" id="levelMenuScreen" style="background: rgba(0,0,0,0.92);">
+            <h1 style="font-size: 30px; margin-bottom: 8px;">LEVELS</h1>
+--------------------------------------------------------------------------------
+[THOUGHT]
+The read for lines 1-120 got omitted as duplicate. Let me read lines 1-120 now to see CSS/head.
+
+Actually the output says "[Older duplicate content omitted]". I need lines 1-120. Let me read that range specifically now.
+
+Also I have 330-400 now. Let me read 1-120 and the gameplay JS key parts.
+
+Let me be efficient: read 1-120 (CSS/head), and search for key functions: draw, useSaveLife, gameOver, level params.
+
+Let me batch: read_file_range(1,120) + global_search for "function draw" / "useSaveLife" / "function gameOver".
+
+Actually I already had a lot from the checkpoint but it's not visible now. Let me just read the file in chunks. The file seems to be ~1000+ lines. Let me read 1-120, then 400-560, 560-700, 700-850, 850-1000.
+
+But budget - I have 78 actions. Reading is fine. But let me be smart: read the whole file at once with read_file to get everything, then do multi_edit.
+
+The concern: read_file on ~1000 lines might be truncated. Let me read in ranges.
+
+Let me do: read 1-120, read 400-560.
+
+Actually let me first grep for structure markers to know line numbers.
+
+The 1-120 read was omitted. Let me read the CSS/head section and grep for key function locations in parallel to pinpoint edit anchors.
+--------------------------------------------------------------------------------
+ACTION: read_file_range
+[THOUGHT]
+The read for lines 1-120 got omitted as duplicate. Let me read lines 1-120 now to see CSS/head.
+
+Actually the output says "[Older duplicate content omitted]". I need lines 1-120. Let me read that range specifically now.
+
+Also I have 330-400 now. Let me read 1-120 and the gameplay JS key parts.
+
+Let me be efficient: read 1-120 (CSS/head), and search for key functions: draw, useSaveLife, gameOver, level params.
+
+Let me batch: read_file_range(1,120) + global_search for "function draw" / "useSaveLife" / "function gameOver".
+
+Actually I already had a lot from the checkpoint but it's not visible now. Let me just read the file in chunks. The file seems to be ~1000+ lines. Let me read 1-120, then 400-560, 560-700, 700-850, 850-1000.
+
+But budget - I have 78 actions. Reading is fine. But let me be smart: read the whole file at once with read_file to get everything, then do multi_edit.
+
+The concern: read_file on ~1000 lines might be truncated. Let me read in ranges.
+
+Let me do: read 1-120, read 400-560.
+
+Actually let me first grep for structure markers to know line numbers.
+
+The 1-120 read was omitted. Let me read the CSS/head section and grep for key function locations in parallel to pinpoint edit anchors.
+
+[INPUT]
+{"path":"index.html","startLine":1,"endLine":130}
+
+[OUTPUT]
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    
+    <meta property="og:title" content="Funnybirds - Play Flappy Bird Online Free">
+    <meta property="og:description" content="Play the funniest Flappy Bird clone with famous characters! Addictive and free.">
+    <meta property="og:image" content="og-image.jpg">
+    <meta property="og:url" content="https://grameenbit.github.io/Funnybirds/">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="keywords" content="flappy bird online, funny games, play flappy bird free, funnybirds game, sheikh hasina game, messi game, trump game">
+    <meta name="description" content="Play Funny Flappy Bird online for free! Choose funny characters like Sheikh Hasina, Trump, Messi. Avoid pipes and beat high scores. No download needed.">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="index, follow">
+    
+    <title>Funny flappy Birds - Flappy Game</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                flex-direction: column; /* Changed to column for Logo placement */
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow: hidden;
+        }
+
+        /* --- NEW: Website Logo Style --- */
+        .game-logo {
+            font-family: 'Fredoka One', cursive;
+            font-size: 48px;
+            color: #FFD700;
+            text-shadow: 4px 4px 0px #000;
+            margin-bottom: 20px;
+            letter-spacing: 2px;
+            animation: bounce 2s infinite;
+                text-align: center;
+        }
+        .game-logo span { color: #fff; }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
+            40% {transform: translateY(-10px);}
+            60% {transform: translateY(-5px);}
+        }
+
+        .game-container {
+            position: relative;
+            width: 400px;
+            height: 600px;
+            background: linear-gradient(to bottom, #87CEEB 0%, #87CEEB 70%, #98D98E 70%, #98D98E 100%);
+                border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            border: 4px solid #fff; /* Border style enhanced */
+        }
+
+        canvas {
+            display: block;
+            cursor: pointer;
+            border-radius: 17px;
+        }
+
+        .screen {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            z-index: 10;
+            transition: opacity 0.3s ease;
+        }
+
+        .screen.hidden {
+            display: none;
+        }
+
+        .screen h1 {
+            font-family: 'Fredoka One', cursive; /* Better font */
+            font-size: 36px;
+            margin-bottom: 20px;
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.5);
+            animation: pulse 2s infinite;
+            text-align: center;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 99%, #fecfef 100%); /* Improved Gradient */
+            color: #d35400;
+            border: 2px solid white;
+            padding: 15px 40px;
+            font-size: 20px;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-family: 'Fredoka One', cursive;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+            background: linear-gradient(135deg, #fecfef 0%, #ff9a9e 100%);
+        }
+
+        .btn:active {
+            transform: translateY(-1px);
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+ACTION: global_search
+[THOUGHT]
+The read for lines 1-120 got omitted as duplicate. Let me read lines 1-120 now to see CSS/head.
+
+Actually the output says "[Older duplicate content omitted]". I need lines 1-120. Let me read that range specifically now.
+
+Also I have 330-400 now. Let me read 1-120 and the gameplay JS key parts.
+
+Let me be efficient: read 1-120 (CSS/head), and search for key functions: draw, useSaveLife, gameOver, level params.
+
+Let me batch: read_file_range(1,120) + global_search for "function draw" / "useSaveLife" / "function gameOver".
+
+Actually I already had a lot from the checkpoint but it's not visible now. Let me just read the file in chunks. The file seems to be ~1000+ lines. Let me read 1-120, then 400-560, 560-700, 700-850, 850-1000.
+
+But budget - I have 78 actions. Reading is fine. But let me be smart: read the whole file at once with read_file to get everything, then do multi_edit.
+
+The concern: read_file on ~1000 lines might be truncated. Let me read in ranges.
+
+Let me do: read 1-120, read 400-560.
+
+Actually let me first grep for structure markers to know line numbers.
+
+The 1-120 read was omitted. Let me read the CSS/head section and grep for key function locations in parallel to pinpoint edit anchors.
+
+[INPUT]
+{"query":"function draw|function useSaveLife|function gameOver|function resetGame|function startGame|function update|levelConfig|function flap|function loop"}
+
+[OUTPUT]
+No occurrences of 'function draw|function useSaveLife|function gameOver|function resetGame|function startGame|function update|levelConfig|function flap|function loop' found.
+--------------------------------------------------------------------------------
+[THOUGHT]
+The grep with pipe didn't work. Let me do individual searches or read the file in chunks. Let me read the file in larger chunks to see the JS.
+
+Let me read lines 400-700 and 700-1000. Actually, let me read the whole file with read_file.
+
+Let me do read_file on index.html.
+
+Grep with pipes didn't work. Let me read the JS portion in chunks to locate the game logic functions.
+--------------------------------------------------------------------------------
+ACTION: read_file_range
+[THOUGHT]
+The grep with pipe didn't work. Let me do individual searches or read the file in chunks. Let me read the file in larger chunks to see the JS.
+
+Let me read lines 400-700 and 700-1000. Actually, let me read the whole file with read_file.
+
+Let me do read_file on index.html.
+
+Grep with pipes didn't work. Let me read the JS portion in chunks to locate the game logic functions.
+
+[INPUT]
+{"path":"index.html","startLine":400,"endLine":700}
+
+[OUTPUT]
+<h1 style="font-size: 30px; margin-bottom: 8px;">LEVELS</h1>
+            <p id="unlockStatusText" style="font-size: 13px; color:#cfd8dc; margin-bottom: 10px; text-align:center; padding:0 12px;">Unlock all 100 levels for $2.00</p>
+            <div class="level-grid" id="levelGrid"></div>
+            <button class="unlock-btn" id="unlockAllBtn" onclick="purchaseUnlockAll()">Unlock All Levels — $2.00</button>
+            <button class="sub-btn" onclick="closeLevelMenu()">Close</button>
+        </div>
+
+        <button class="menu-toggle-btn" id="menuToggleBtn" onclick="openLevelMenu()">☰</button>
+    </div>
+
+    <!-- BANNER AD (bottom of game) -->
+    <div class="banner-ad" id="bannerAd">
+        <span class="ad-tag">AD</span><span>Banner Ad Space (AdMob)</span>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+        const characterSelectScreen = document.getElementById('characterSelectScreen');
+        const gameOverScreen = document.getElementById('gameOverScreen');
+        const pauseScreen = document.getElementById('pauseScreen');
+        const scoreElement = document.querySelector('.score');
+        const bestScoreElement = document.querySelector('.best-score');
+        const finalScoreElement = document.getElementById('finalScore');
+        const bestScoreTextElement = document.getElementById('bestScoreText');
+        const startBtn = document.getElementById('startBtn');
+        const pauseBtn = document.getElementById('pauseBtn');
+        const levelDisplayElement = document.querySelector('.level-display');
+        const levelMenuScreen = document.getElementById('levelMenuScreen');
+        const levelGrid = document.getElementById('levelGrid');
+        const unlockAllBtn = document.getElementById('unlockAllBtn');
+        const unlockStatusText = document.getElementById('unlockStatusText');
+        const menuToggleBtn = document.getElementById('menuToggleBtn');
+        const saveLifeBtn = document.getElementById('saveLifeBtn');
+        const bannerAdEl = document.getElementById('bannerAd');
+
+        // --- গেম স্টেট এবং ভেরিয়েবল ---
+        let gameState = 'selecting'; // 'selecting', 'playing', 'gameOver', 'paused'
+        let score = 0;
+        let bestScore = localStorage.getItem('flappyBestScore') || 0;
+        let frameCount = 0;
+        let isPaused = false; // NEW Feature variable
+
+        // --- LEVEL SYSTEM (100 levels, progressive difficulty) ---
+        const maxLevel = 100;
+        const pointsPerLevel = 20;  // score needed to move to the next level
+        let level = 1;
+        let levelScore = 0;
+        let levelUpBanner = 0;      // frames to show the level-up banner
+        let bestLevel = parseInt(localStorage.getItem('flappyBestLevel') || '1', 10);
+        let selectedStartLevel = 1; // level chosen from the Level Menu
+        let allLevelsUnlocked = localStorage.getItem('flappyUnlocked') === 'true';
+        let livesUsed = 0;          // how many times "Save Life" was used this run
+
+        // --- AD BRIDGE (Native AdMob via Android WebView) ---
+        const AdBridge = {
+            // Native interface registered by MainActivity.addJavascriptInterface(..., "Android")
+            native: (window.PenCodeAds || window.AndroidAds || window.Android || null),
+            isNative() { return !!this.native; },
+            showBanner() { try { if (this.native && this.native.showBanner) this.native.showBanner(); } catch (e) {} },
+            hideBanner() { try { if (this.native && this.native.hideBanner) this.native.hideBanner(); } catch (e) {} },
+            showInterstitial() { try { if (this.native && this.native.showInterstitial) this.native.showInterstitial(); } catch (e) {} },
+            showAppOpenAd() { try { if (this.native && this.native.showAppOpenAd) this.native.showAppOpenAd(); } catch (e) {} },
+            isPurchased() { try { return this.native && this.native.isUnlockedAll ? this.native.isUnlockedAll() : false; } catch (e) { return false; } },
+            showRewarded(cb) {
+                window.__onRewardedClosed = cb;
+                if (this.native && this.native.showRewardedAd) {
+                    try { this.native.showRewardedAd(); return; } catch (e) {}
+                }
+                showFakeRewardDialog(cb);
+            },
+            purchaseUnlockAll(cb) {
+                window.__onPurchaseResult = cb;
+                if (this.native && this.native.purchaseUnlockAll) {
+                    try { this.native.purchaseUnlockAll(); return; } catch (e) {}
+                }
+                showFakePurchaseDialog(cb);
+            }
+        };
+        // Callback invoked BY the native layer when a rewarded ad finishes.
+        window.onRewardedResult = function (earned) {
+            if (typeof window.__onRewardedClosed === 'function') {
+                window.__onRewardedClosed(!!earned);
+                window.__onRewardedClosed = null;
+            }
+        };
+        // Callback invoked BY the native layer with the purchase result.
+        window.onPurchaseResult = function (success) {
+            if (success) { unlockAllLevels(); }
+            if (typeof window.__onPurchaseResult === 'function') {
+                window.__onPurchaseResult(!!success);
+                window.__onPurchaseResult = null;
+            }
+        };
+
+        // --- চরিত্রের তথ্য (NEW Characters added) ---
+        const characters = [
+            { id: 'bird', name: 'Tor nani', imageSrc: 'bird.png', soundSrc: 'sound1.mp3' },
+            { id: 'sheikh', name: 'Sheikh Hasina', imageSrc: 'seikhhasina.png', soundSrc: 'seikh.mp3' },
+            { id: 'bongobondhu', name: 'Bongobondhu', imageSrc: 'bongobondhu.png', soundSrc: 'bondhu.mp3' },
+            { id: 'cid', name: 'CID', imageSrc: 'cid.png', soundSrc: 'cid.mp3' },
+            { id: 'modi', name: 'Modi', imageSrc: 'modi.png', soundSrc: 'modi.mp3' },
+            { id: 'anime', name: 'Anime', imageSrc: 'anime.png', soundSrc: 'anime.mp3' },
+            { id: 'neymar', name: 'Free Fire Pro', imageSrc: 'free.png', soundSrc: 'free.mp3' },
+            // NEW CHARACTERS ADDED HERE
+            { id: 'trump', name: 'Amitab bacchan', imageSrc: 'amitab.png', soundSrc: 'amitab.mp3' },
+            { id: 'messi', name: 'Single apa', imageSrc: 'single.png', soundSrc: 'single.mp3' },
+            { id: 'nahid', name: 'Nahid Morshed', imageSrc: 'nahid.png', soundSrc: 'nahid.mp3' },
+            { id: 'wala', name: '10 wala buscuit', imageSrc: 'wala.png', soundSrc: 'wala.mp3' },
+            { id: 'dada', name: 'chala ja bsdk', imageSrc: 'chala.png', soundSrc: 'chala.mp3' },
+            { id: 'rag', name: 'rag korla', imageSrc: 'rag.png', soundSrc: 'rag.mp3' },
+            // NEW CHARACTERS (sadkid, chinar, baj)
+            { id: 'sadkid', name: 'Sad Kid', imageSrc: 'sadkid.png', soundSrc: 'sadkid.mp3' },
+            { id: 'chinar', name: 'Chinar', imageSrc: 'chinar.png', soundSrc: 'chinar.mp3' },
+            { id: 'baj', name: 'Baj', imageSrc: 'baj.png', soundSrc: 'baj.mp3' }
+        ];
+        let selectedCharacter = characters[0];
+
+        // --- বার্ড অবজেক্ট ---
+        const bird = {
+            x: 100,
+            y: canvas.height / 2,
+            width: 50,
+            height: 50,
+            velocity: 0,
+            gravity: 0.30,
+            jump: -6,
+            rotation: 0,
+            image: new Image()
+        };
+
+        // --- পাইপ অ্যারে এবং সেটিংস ---
+        let pipes = [];
+        const pipeWidth = 60;
+        let pipeGap = 220;      // shrinks as level rises
+        let pipeSpeed = 1.6;    // rises as level rises
+        let pipeInterval = 130;  // spawns faster as level rises
+
+        // --- রিসোর্স লোড ---
+        let gameOverSound = new Audio();
+
+        // --- গ্রিন স্ক্রিন রিমুভালের জন্য টেম্পোরারি ক্যানভাস ---
+        const tempCanvas = document.createElement('canvas');
+        const tempCtx = tempCanvas.getContext('2d');
+        tempCanvas.width = bird.width;
+        tempCanvas.height = bird.height;
+
+        // --- চরিত্র নির্বাচন ইনিটিয়ালাইজেশন ---
+        function initCharacterSelect() {
+            const characterGrid = document.getElementById('characterGrid');
+            characterGrid.innerHTML = '';
+
+            characters.forEach(char => {
+                const card = document.createElement('div');
+                card.className = 'character-card';
+                card.dataset.id = char.id;
+                // ইমেজ না থাকলে অল্টারনেটিভ টেক্সট দেখাবে
+                card.innerHTML = `
+                    <img src="${char.imageSrc}" alt="${char.name}" onerror="this.src='https://via.placeholder.com/60?text=${char.name.charAt(0)}'">
+                    <p>${char.name}</p>
+                `;
+                card.addEventListener('click', () => selectCharacter(char));
+                characterGrid.appendChild(card);
+            });
+
+            selectCharacter(characters[0]);
+        }
+        
+        // --- চরিত্র নির্বাচন ফাংশন ---
+        function selectCharacter(character) {
+            selectedCharacter = character;
+            
+            document.querySelectorAll('.character-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+            document.querySelector(`[data-id="${character.id}"]`).classList.add('selected');
+
+            bird.image.src = selectedCharacter.imageSrc;
+            
+            // Sound handling logic improved
+            try {
+                gameOverSound.src = selectedCharacter.soundSrc;
+            } catch(e) { console.log('Sound error'); }
+            
+            startBtn.disabled = false;
+        }
+
+        // --- গেম শুরু ---
+        function startGame() {
+            characterSelectScreen.classList.add('hidden');
+            gameOverScreen.classList.add('hidden');
+            if (levelMenuScreen) levelMenuScreen.classList.add('hidden');
+            if (menuToggleBtn) menuToggleBtn.style.display = 'flex';
+            scoreElement.classList.remove('hidden');
+            bestScoreElement.classList.remove('hidden');
+            levelDisplayElement.classList.remove('hidden');
+            pauseBtn.style.display = 'flex'; // Show pause button
+            AdBridge.showBanner();
+            init();
+            gameState = 'playing';
+            isPaused = false;
+            gameLoop();
+        }
+        
+        // --- গেম ইনিশিয়ালাইজেশন ---
+        function init() {
+            bird.y = canvas.height / 2;
+            bird.velocity = 0;
+            bird.rotation = 0;
+            pipes = [];
+            score = 0;
+            frameCount = 0;
+            level = selectedStartLevel;
+            levelScore = 0;
+            levelUpBanner = 0;
+            livesUsed = 0;
+            applyDifficulty();
+            updateScore();
+            updateBestScore();
+            updateLevelDisplay();
+        }
+
+        // --- LEVEL DIFFICULTY CURVE ---
+        // Linear interpolation from level 1 (easy) to level 100 (very hard)
+        function getDifficulty(lv) {
+            const t = (lv - 1) / (maxLevel - 1); // 0 .. 1
+            return {
+                gap:      Math.round(220 - t * 110), // 220 -> 110  (narrower gap)
+                speed:    1.6 + t * 2.4,             // 1.6 -> 4.0  (faster pipes)
+                interval: Math.round(130 - t * 58)   // 130 -> 72   (more frequent)
+            };
+        }
+
+        function applyDifficulty() {
+            const d = getDifficulty(level);
+            pipeGap = d.gap;
+            pipeSpeed = d.speed;
+            pipeInterval = d.interval;
+        }
+
+        function updateLevelDisplay() {
+            levelDisplayElement.textContent = `Level ${level} / ${maxLevel}`;
+        }
+
+        function levelUp() {
+            if (level >= maxLevel) return;
+            level++;
+            levelScore = 0;
+            applyDifficulty();
+            updateLevelDisplay();
+            levelUpBanner = 90; // ~1.5s at 60fps
+            if (level > bestLevel) {
+                bestLevel = level;
+                localStorage.setItem('flappyBestLevel', bestLevel);
+            }
+            // Interstitial ad when moving from one level to another
+            AdBridge.showInterstitial();
+        }
+        
+        // --- NEW: Toggle Pause Function ---
+        function togglePause() {
+            if (gameState === 'gameOver' || gameState === 'selecting') return;
+
+            isPaused = !isPaused;
+            if (isPaused) {
+                gameState = 'paused';
+                pauseScreen.classList.remove('hidden');
+                pauseBtn.style.display = 'none';
+            } else {
+                gameState = 'playing';
+                pauseScreen.classList.add('hidden');
+                pauseBtn.style.display = 'flex';
+                gameLoop(); // Restart loop
+            }
+        }
+
+        // --- গেম ওভার ---
+        function gameOver() {
+            if (gameState !== 'playing') return;
+            gameState = 'gameOver';
+            pauseBtn.style.display = 'none'; // Hide pause button
+            
+            try {
+                gameOverSound.currentTime = 0;
+                gameOverSound.play().catch(e => console.log("Sound error:", e));
+            } catch (e) { }
+            
+            if (score > bestScore) {
+                bestScore = score;
+                localStorage.setItem('flappyBestScore', bestScore);
+            }
+            
+            finalScoreElement.textContent = `Your Score: ${score}`;
+            bestScoreTextElement.textContent = `Best Score: ${bestScore}`;
+            
+            scoreElement.classList.add('hidden');
+            bestScoreElement.classList.add('hidden');
+            levelDisplayElement.classList.add('hidden');
+            finalScoreElement.textContent = `Your Score: ${score}\nLevel Reached: ${level} / ${maxLevel}`;
+            finalScoreElement.style.whiteSpace = 'pre-line';
+            if (saveLifeBtn) saveLifeBtn.classList.remove('hidden');
+
+[SYSTEM NOTICE: You have already inspected this exact code slice in 'index.html' multiple times. Proceed with 'edit_file' or 'create_file', or call 'complete' if your work is finished.]
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+ACTION: read_file_range
+[THOUGHT]
+The grep with pipe didn't work. Let me do individual searches or read the file in chunks. Let me read the file in larger chunks to see the JS.
+
+Let me read lines 400-700 and 700-1000. Actually, let me read the whole file with read_file.
+
+Let me do read_file on index.html.
+
+Grep with pipes didn't work. Let me read the JS portion in chunks to locate the game logic functions.
+
+[INPUT]
+{"path":"index.html","startLine":700,"endLine":1000}
+
+[OUTPUT]
+if (saveLifeBtn) saveLifeBtn.classList.remove('hidden');
+            gameOverScreen.classList.remove('hidden');
+        }
+
+        // --- SAVE LIFE (Rewarded Ad) ---
+        function useSaveLife() {
+            if (saveLifeBtn) saveLifeBtn.classList.add('hidden');
+            AdBridge.showRewarded(function (earned) {
+                if (earned) {
+                    // Restore the game at the current level
+                    livesUsed++;
+                    pipes = [];
+                    frameCount = 0;
+                    levelScore = 0;
+                    bird.y = canvas.height / 2;
+                    bird.velocity = 0;
+                    bird.rotation = 0;
+                    gameOverScreen.classList.add('hidden');
+                    scoreElement.classList.remove('hidden');
+                    bestScoreElement.classList.remove('hidden');
+                    levelDisplayElement.classList.remove('hidden');
+                    pauseBtn.style.display = 'flex';
+                    gameState = 'playing';
+                    isPaused = false;
+                    gameLoop();
+                }
+            });
+        }
+
+        function backToCharacterSelect() {
+            gameState = 'selecting';
+            gameOverScreen.classList.add('hidden');
+            pauseScreen.classList.add('hidden');
+            characterSelectScreen.classList.remove('hidden');
+            pauseBtn.style.display = 'none';
+        }
+
+        function updateScore() {
+            scoreElement.textContent = score;
+        }
+
+        function updateBestScore() {
+            bestScoreElement.textContent = `Best: ${bestScore}`;
+        }
+
+        // --- পাইপ তৈরি ---
+        function createPipe() {
+            const minHeight = 50;
+            const maxHeight = canvas.height - pipeGap - minHeight - 80;
+            const height = Math.random() * (maxHeight - minHeight) + minHeight;
+            
+            pipes.push({
+                x: canvas.width,
+                topHeight: height,
+                bottomY: height + pipeGap,
+                passed: false
+            });
+        }
+
+        // --- বার্ড আঁকা (Original Green Screen Logic Kept) ---
+        function drawBird() {
+            ctx.save();
+            ctx.translate(bird.x + bird.width / 2, bird.y + bird.height / 2);
+            
+            bird.rotation = Math.min(Math.max(bird.velocity * 3, -30), 90) * Math.PI / 180;
+            ctx.rotate(bird.rotation);
+            
+            if (bird.image.complete && bird.image.naturalHeight !== 0) {
+                // গ্রিন স্ক্রিন রিমুভাল লজিক (অপরিবর্তিত)
+                tempCtx.clearRect(0, 0, tempCanvas.width, tempCanvas.height);
+                tempCtx.drawImage(bird.image, 0, 0, bird.width, bird.height);
+                
+                const imageData = tempCtx.getImageData(0, 0, tempCanvas.width, tempCanvas.height);
+                const data = imageData.data;
+
+                for (let i = 0; i < data.length; i += 4) {
+                    const r = data[i];
+                    const g = data[i + 1];
+                    const b = data[i + 2];
+                    
+                    if (g > 100 && g > r * 1.4 && g > b * 1.4) {
+                        data[i + 3] = 0; 
+                    }
+                }
+                
+                tempCtx.putImageData(imageData, 0, 0);
+                
+                ctx.beginPath();
+                ctx.arc(0, 0, bird.width / 2, 0, Math.PI * 2);
+                ctx.closePath();
+                ctx.clip();
+                ctx.drawImage(tempCanvas, -bird.width / 2, -bird.height / 2, bird.width, bird.height);
+
+            } else {
+                // Fallback circle if image fails
+                ctx.fillStyle = '#FFD700';
+                ctx.beginPath();
+                ctx.arc(0, 0, bird.width / 2, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.fillStyle = '#000'; // Eye
+                ctx.beginPath();
+                ctx.arc(10, -5, 5, 0, Math.PI * 2);
+                ctx.fill();
+            }
+            
+            ctx.restore();
+        }
+
+        // --- পাইপ আঁকা ---
+        function drawPipes() {
+            pipes.forEach(pipe => {
+                // Professional Gradient for Pipes
+                const pipeGradient = ctx.createLinearGradient(pipe.x, 0, pipe.x + pipeWidth, 0);
+                pipeGradient.addColorStop(0, '#2ecc71');
+                pipeGradient.addColorStop(0.5, '#27ae60');
+                pipeGradient.addColorStop(1, '#2ecc71');
+                
+                ctx.fillStyle = pipeGradient;
+                ctx.strokeStyle = '#22552b';
+                ctx.lineWidth = 2;
+
+                // Top Pipe
+                ctx.fillRect(pipe.x, 0, pipeWidth, pipe.topHeight);
+                ctx.strokeRect(pipe.x, 0, pipeWidth, pipe.topHeight);
+                
+                // Cap
+                ctx.fillRect(pipe.x - 4, pipe.topHeight - 20, pipeWidth + 8, 20);
+                ctx.strokeRect(pipe.x - 4, pipe.topHeight - 20, pipeWidth + 8, 20);
+
+                // Bottom Pipe
+                ctx.fillRect(pipe.x, pipe.bottomY, pipeWidth, canvas.height - pipe.bottomY);
+                ctx.strokeRect(pipe.x, pipe.bottomY, pipeWidth, canvas.height - pipe.bottomY);
+                
+                // Cap
+                ctx.fillRect(pipe.x - 4, pipe.bottomY, pipeWidth + 8, 20);
+                ctx.strokeRect(pipe.x - 4, pipe.bottomY, pipeWidth + 8, 20);
+            });
+        }
+
+        // --- গেম আপডেট ---
+        function update() {
+            if (gameState !== 'playing' || isPaused) return;
+
+            bird.velocity += bird.gravity;
+            bird.y += bird.velocity;
+
+            if (bird.y < 0 || bird.y + bird.height > canvas.height - 80) {
+                gameOver();
+                return;
+            }
+
+            frameCount++;
+            if (frameCount % pipeInterval === 0) {
+                createPipe();
+            }
+
+            pipes.forEach((pipe, index) => {
+                pipe.x -= pipeSpeed;
+
+                if (pipe.x + pipeWidth < 0) {
+                    pipes.splice(index, 1);
+                }
+
+                if (bird.x < pipe.x + pipeWidth &&
+                    bird.x + bird.width > pipe.x &&
+                    (bird.y < pipe.topHeight || bird.y + bird.height > pipe.bottomY)) {
+                    gameOver();
+                    return;
+                }
+
+                if (!pipe.passed && pipe.x + pipeWidth < bird.x) {
+                    pipe.passed = true;
+                    score++;
+                    levelScore++;
+                    updateScore();
+                    if (levelScore >= pointsPerLevel && level < maxLevel) {
+                        levelUp();
+                    }
+                }
+            });
+        }
+
+        // --- গেম আঁকা ---
+        function draw() {
+            // Background
+            const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
+            gradient.addColorStop(0, '#87CEEB');
+            gradient.addColorStop(0.7, '#87CEEB');
+            gradient.addColorStop(1, '#e0f7fa');
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // Simple Clouds (Visual Improvement)
+            ctx.fillStyle = "rgba(255, 255, 255, 0.5)";
+            ctx.beginPath();
+            ctx.arc(100, 100, 30, 0, Math.PI * 2);
+            ctx.arc(300, 150, 40, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Ground
+            ctx.fillStyle = '#8FBC8F';
+            ctx.fillRect(0, canvas.height - 80, canvas.width, 80);
+            
+            // Ground Line
+            ctx.strokeStyle = '#7CFC00';
+            ctx.lineWidth = 5;
+            ctx.beginPath();
+            ctx.moveTo(0, canvas.height - 80);
+            ctx.lineTo(canvas.width, canvas.height - 80);
+            ctx.stroke();
+
+            if (gameState === 'playing' || gameState === 'paused') {
+                drawPipes();
+                drawBird();
+            }
+
+            // Level-up banner
+            if (levelUpBanner > 0) {
+                ctx.save();
+                ctx.globalAlpha = Math.min(1, levelUpBanner / 30);
+                ctx.fillStyle = 'rgba(0,0,0,0.45)';
+                ctx.fillRect(0, canvas.height / 2 - 55, canvas.width, 90);
+                ctx.fillStyle = '#FFD700';
+                ctx.font = 'bold 36px Fredoka One, Arial';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillText('LEVEL ' + level + '!', canvas.width / 2, canvas.height / 2 - 20);
+                ctx.fillStyle = '#fff';
+                ctx.font = 'bold 16px Arial';
+                ctx.fillText('Pipes getting harder...', canvas.width / 2, canvas.height / 2 + 15);
+                ctx.restore();
+                levelUpBanner--;
+            }
+        }
+
+        // --- গেম লুপ ---
+        function gameLoop() {
+            if(isPaused) return; // Stop loop if paused
+
+            update();
+            draw();
+            
+            if (gameState === 'playing') {
+                requestAnimationFrame(gameLoop);
+            }
+        }
+
+        // --- কন্ট্রোল ---
+        function jump() {
+            if (gameState === 'playing' && !isPaused) {
+                bird.velocity = bird.jump;
+            }
+        }
+
+        // --- ইভেন্ট লিসেনার ---
+        canvas.addEventListener('click', jump);
+        document.addEventListener('keydown', (e) => {
+            if (e.code === 'Space') {
+                e.preventDefault();
+                jump();
+            }
+            // 'P' key for Pause
+            if (e.code === 'KeyP') {
+                togglePause();
+            }
+        });
+
+        startBtn.addEventListener('click', () => {
+            if(!startBtn.disabled) {
+                startGame();
+            }
+        });
+
+        // ===== LEVEL MENU =====
+        function buildLevelMenu() {
+            if (!levelGrid) return;
+            levelGrid.innerHTML = '';
+            for (let i = 1; i <= maxLevel; i++) {
+                const btn = document.createElement('button');
+                btn.className = 'level-btn';
+                btn.dataset.level = i;
+                const locked = (i !== 1) && !allLevelsUnlocked; // level 1 is free to play
+                if (locked) {
+                    btn.classList.add('locked');
+                    btn.innerHTML = '<span class="lock-ico">🔒</span>';
+                } else {
+                    btn.classList.add(i <= bestLevel ? 'cleared' : 'current');
+                    btn.textContent = i;
+                }
+                btn.addEventListener('click', () => onLevelClick(i, locked));
+                levelGrid.appendChild(btn);
+            }
+            updateUnlockUI();
+        }
+
+        function onLevelClick(lv, locked) {
+            if (locked) {
+                AdBridge.purchaseUnlockAll(function () {});
+                return;
+            }
+            selectedStartLevel = lv;
+
+[SYSTEM NOTICE: You have already inspected this exact code slice in 'index.html' multiple times. Proceed with 'edit_file' or 'create_file', or call 'complete' if your work is finished.]
+
+[ADVISORY: You have reviewed 'index.html' 5 times. Proceed with 'edit_file' or 'create_file', or call 'complete' if finished.]
+--------------------------------------------------------------------------------
+
+================================================================================
+[INCOMPLETE TASK CHECKPOINT]
+TIMESTAMP: 2026-11-27 12:38:25
+PROJECT: bird3d
+USER PROMPT:
+continue
+
+TASK STATUS: UNFINISHED / IN-PROGRESS
+LATEST ACTIONS & INTERRUPT CONTEXT:
+Task stopped: AI task paused or stopped by user.
+================================================================================
+=============================
+
+================================================================================
+[INCOMPLETE TASK CHECKPOINT]
+TIMESTAMP: 2026-11-27 12:38:45
+PROJECT: bird3d
+USER PROMPT:
+[TASK CHECKPOINT RESUMPTION]
+            Resuming task from structured checkpoint (task.json):
+            Goal: "[TASK CONTINUATION & RESUMPTION]
+You are resuming the following task:
+"save life button এ ক্লিক করলে ad show  করে শেষ হওয়ার পর একটা toast message showকরবে and তারপর ৫ থেকে ১ পরজুন্ত count Down হবে এবং যেখান থেকে ইউজার এর গেম over হয়েছিল ওইজায়গা থেকে start হবে,আর প্রতিটি লেভেল কে একটু startegy use করে একটা কে আরেকটার থেকে hard বানাও,আর এখানে cloud ও অ্যাড কর।এবং user চাইলে noght or day mode use করে"
+            Status: interrupted
+            • Active Blocker / Issue: Interrupted by system or lifecycle reset (u54 was cancelled). Tap Continue to resume.
+
+            Completed Milestones:
+              (No completed operations recorded yet)
+
+            Files Modified So Far:
+              (None)
+
+            Next Required Action:
+            Resume remaining tasks and resolve blocker
+
+            INSTRUCTIONS:
+            - Do not recreate or overwrite already completed files.
+            - Pick up directly from 'Resume remaining tasks and resolve blocker'.
+            - Fulfill all remaining requirements and call 'complete' when done.
+
+TASK STATUS: UNFINISHED / IN-PROGRESS
+LATEST ACTIONS & INTERRUPT CONTEXT:
+Task interrupted: Interrupted by system or lifecycle reset (u54 was cancelled). Tap Continue to resume.
+================================================================================

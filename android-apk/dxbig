@@ -1,0 +1,2 @@
+#!/data/data/com.termux/files/usr/bin/sh
+exec dalvikvm -Xcompiler-option --compiler-filter=speed -Xmx512m -cp /data/data/com.termux/files/usr/share/dex/dx.jar dx.dx.command.Main "$@"
